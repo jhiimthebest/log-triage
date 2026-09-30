@@ -1,0 +1,18 @@
+Sep 30 08:01:12 lab-server sshd[1021]: Accepted password for ramon from 192.168.1.20 port 50122 ssh2
+Sep 30 08:15:40 lab-server sshd[1045]: Failed password for ramon from 192.168.1.20 port 50160 ssh2
+Sep 30 08:15:52 lab-server sshd[1046]: Accepted password for ramon from 192.168.1.20 port 50161 ssh2
+Sep 30 09:30:05 lab-server sshd[1102]: Accepted publickey for admin from 192.168.1.35 port 51010 ssh2
+Sep 30 11:02:01 lab-server sshd[1201]: Invalid user test from 203.0.113.45 port 40001
+Sep 30 11:02:03 lab-server sshd[1202]: Failed password for invalid user test from 203.0.113.45 port 40002 ssh2
+Sep 30 11:02:06 lab-server sshd[1203]: Failed password for root from 203.0.113.45 port 40003 ssh2
+Sep 30 11:02:09 lab-server sshd[1204]: Failed password for root from 203.0.113.45 port 40004 ssh2
+Sep 30 11:02:12 lab-server sshd[1205]: Failed password for root from 203.0.113.45 port 40005 ssh2
+Sep 30 11:02:15 lab-server sshd[1206]: Failed password for invalid user admin1 from 203.0.113.45 port 40006 ssh2
+Sep 30 11:02:18 lab-server sshd[1207]: Failed password for invalid user oracle from 203.0.113.45 port 40007 ssh2
+Sep 30 11:02:21 lab-server sshd[1208]: Failed password for root from 203.0.113.45 port 40008 ssh2
+Sep 30 11:02:24 lab-server sshd[1209]: Failed password for invalid user pi from 203.0.113.45 port 40009 ssh2
+Sep 30 11:02:27 lab-server sshd[1210]: Failed password for root from 203.0.113.45 port 40010 ssh2
+Sep 30 13:44:50 lab-server sshd[1300]: Failed password for admin from 198.51.100.7 port 42211 ssh2
+Sep 30 13:52:10 lab-server sshd[1301]: Failed password for admin from 198.51.100.7 port 42290 ssh2
+Sep 30 14:20:33 lab-server sshd[1330]: Accepted password for admin from 198.51.100.7 port 42400 ssh2
+Sep 30 16:05:00 lab-server CRON[1400]: pam_unix(cron:session): session opened for user root by (uid=0)
