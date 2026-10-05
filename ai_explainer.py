@@ -16,7 +16,10 @@ MODEL = "llama3.2"
 
 def ask_ai(prompt):
     """Send a question to Ollama and return its answer."""
-    data = json.dumps({"model": MODEL, "prompt": prompt, "stream": False}).encode()
+    data = json.dumps({
+        "model": MODEL, "prompt": prompt, "stream": False,
+        "options": {"temperature": 0},   # 0 = same answer every time, less guessing
+    }).encode()
     request = urllib.request.Request(OLLAMA_URL, data=data,
                                      headers={"Content-Type": "application/json"})
     with urllib.request.urlopen(request, timeout=120) as response:
@@ -25,16 +28,26 @@ def ask_ai(prompt):
 
 def explain_alert(ip, row, caught_by_rule):
     """Build the prompt for one alert and ask the AI about it."""
+    # Python decides this, not the AI, so it can't get it wrong
+    if ip.startswith("192.168."):
+        location = "INTERNAL (inside our own network, probably an employee)"
+    else:
+        location = "EXTERNAL (from the internet, NOT our network)"
+
     prompt = f"""You are a security analyst assistant. Review this SSH login alert.
 
 IP address: {ip}
+Location: {location}
 Failed logins: {row[0]}
 Fail rate: {row[1]:.0%}
 Different usernames tried: {row[2]}
 Logins between midnight and 6am: {row[3]}
 Caught by brute-force rule: {caught_by_rule}
 
-Note: 192.168.x.x addresses are inside our own network.
+Guidelines:
+- External IP with many failures or many usernames = High
+- Internal IP with a few failures and one username = Low (likely a typo)
+- Give a specific next step, like blocking the IP or checking with the user.
 
 Answer in exactly this format, short and simple:
 Severity: (Low, Medium, or High)
