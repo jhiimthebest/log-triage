@@ -7,6 +7,7 @@ from sklearn.ensemble import IsolationForest
 from parser import parse_log, detect_brute_force
 from ml_detector import build_features
 from ai_explainer import explain_alert
+from ip_lookup import lookup_ip
 
 LOG_FILE = "big_auth.log"
 app = Flask(__name__)
@@ -62,7 +63,9 @@ PAGE = """
     <span class="tag">{{ "Caught by rule + ML" if a.rule else "Caught by ML only" }}</span>
     <div style="margin-top:12px">
       <button onclick="askAI('{{ a.ip }}', {{ loop.index }}, this)">Ask AI</button>
+      <button onclick="lookup('{{ a.ip }}', {{ loop.index }}, this)">Look up IP</button>
     </div>
+    <div class="ai" id="geo-{{ loop.index }}"></div>
     <div class="ai" id="ai-{{ loop.index }}"></div>
   </div>
   {% endfor %}
@@ -79,6 +82,20 @@ async function askAI(ip, n, button) {
     if (data.answer.includes("Severity: " + level)) {
       document.getElementById("card-" + n).classList.add(level);
     }
+  }
+  button.textContent = "Done";
+}
+async function lookup(ip, n, button) {
+  button.disabled = true;
+  button.textContent = "Looking up...";
+  const res = await fetch("/lookup/" + ip);
+  const d = await res.json();
+  const box = document.getElementById("geo-" + n);
+  if (d.found) {
+    box.textContent = "Location: " + d.city + ", " + d.region + ", " + d.country +
+                      "\nProvider: " + d.isp + " (" + d.org + ")";
+  } else {
+    box.textContent = "Location: " + d.reason;
   }
   button.textContent = "Done";
 }
@@ -103,6 +120,11 @@ def explain(ip):
     except Exception as error:
         answer = f"Could not reach Ollama. Is it running? ({error})"
     return jsonify({"answer": answer})
+
+
+@app.route("/lookup/<ip>")
+def lookup(ip):
+    return jsonify(lookup_ip(ip))
 
 
 if __name__ == "__main__":
