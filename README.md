@@ -21,3 +21,4 @@ python3 ai_explainer.py big_auth.log
 ## Coming next
 - Web dashboard
 - Testing on real logs from a home lab
+![Dashboard](dashboard.png)
