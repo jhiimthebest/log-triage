@@ -93,7 +93,7 @@ async function lookup(ip, n, button) {
   const box = document.getElementById("geo-" + n);
   if (d.found) {
     box.textContent = "Location: " + d.city + ", " + d.region + ", " + d.country +
-                      "\nProvider: " + d.isp + " (" + d.org + ")";
+                      "\\nProvider: " + d.isp + " (" + d.org + ")";
   } else {
     box.textContent = "Location: " + d.reason;
   }
